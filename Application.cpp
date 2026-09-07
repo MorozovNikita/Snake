@@ -4,6 +4,7 @@
 #include "State.h"
 #include "StateIdentifiers.h"
 #include "MenuState.h"
+#include "GameState.h"
 
 #include <SFML/Graphics/Texture.hpp>
 #include <SFML/Graphics/Font.hpp>
@@ -15,7 +16,7 @@ namespace Game
 	const sf::Time Application::TimePerFrame = sf::seconds(1.f / 60.f);
 
 	Application::Application()
-		: mWindow(sf::VideoMode({ SCREEN_WIDTH, SCREEN_HEIGHT }), "Gameplay", sf::Style::Close)
+		: mWindow(sf::VideoMode({ SCREEN_WIDTH, SCREEN_HEIGHT }), "Gameplay"s, sf::Style::Close)
 		, mTextures()
 		, mFonts()
 		, mSoundBuffers()
@@ -26,7 +27,9 @@ namespace Game
 	{
 		mWindow.setKeyRepeatEnabled(false);
 
-		mFonts.load(Fonts::Main, RESOURCES_PATH + "\\Fonts\\PressStart2P-Regular.ttf");
+		mFonts.load(Fonts::Main, RESOURCES_PATH + "\\Fonts\\PressStart2P-Regular.ttf"s);
+
+		mTextures.load(Textures::Grass, RESOURCES_PATH + "\\grass.png"s);
 
 		mStatisticsText = std::make_unique<sf::Text>(mFonts.get(Fonts::Main));
 		mStatisticsText->setPosition({ 5.f, 5.f });
@@ -106,6 +109,7 @@ namespace Game
 	void Application::registerStates()
 	{
 		mStateStack.registerState<MenuState>(States::Menu);
+		mStateStack.registerState<GameState>(States::Game);
 	}
 
 }

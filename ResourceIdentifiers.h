@@ -11,7 +11,7 @@ namespace Textures
 {
 	enum ID
 	{
-		
+		Grass,
 	};
 }
 

@@ -124,6 +124,7 @@ namespace Game
         switch (m_selectedIndex)
         {
         case Menu::Game:
+            requestStackPush(States::Game);
             break;
         case Menu::Difficulty:
             break;

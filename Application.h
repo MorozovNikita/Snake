@@ -26,14 +26,14 @@ namespace Game
 		void					registerStates();
 
 	private:
-		static const sf::Time	TimePerFrame;
-
-		sf::RenderWindow		mWindow;
-		TextureHolder			mTextures;
-		FontHolder				mFonts;
-		SoundBufferHolder		mSoundBuffers;
-
-		StateStack				mStateStack;
+		static const sf::Time	  TimePerFrame;
+								  
+		sf::RenderWindow		  mWindow;
+		TextureHolder			  mTextures;
+		FontHolder				  mFonts;
+		SoundBufferHolder		  mSoundBuffers;
+								  
+		StateStack				  mStateStack;
 
 		std::unique_ptr<sf::Text> mStatisticsText;
 		sf::Time				  mStatisticsUpdateTime;
