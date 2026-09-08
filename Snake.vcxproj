@@ -143,6 +143,7 @@
     <ClCompile Include="GameState.cpp" />
     <ClCompile Include="Grid.cpp" />
     <ClCompile Include="MenuState.cpp" />
+    <ClCompile Include="Snake.cpp" />
     <ClCompile Include="SnakeMain.cpp" />
     <ClCompile Include="State.cpp" />
     <ClCompile Include="StateStack.cpp" />
@@ -150,12 +151,14 @@
   <ItemGroup>
     <ClInclude Include="Application.h" />
     <ClInclude Include="Constants.h" />
+    <ClInclude Include="Direction.h" />
     <ClInclude Include="GameState.h" />
     <ClInclude Include="Grid.h" />
     <ClInclude Include="MenuConstants.h" />
     <ClInclude Include="MenuState.h" />
     <ClInclude Include="ResourceHolder.h" />
     <ClInclude Include="ResourceIdentifiers.h" />
+    <ClInclude Include="Snake.h" />
     <ClInclude Include="State.h" />
     <ClInclude Include="StateIdentifiers.h" />
     <ClInclude Include="StateStack.h" />

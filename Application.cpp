@@ -30,6 +30,8 @@ namespace Game
 		mFonts.load(Fonts::Main, RESOURCES_PATH + "\\Fonts\\PressStart2P-Regular.ttf"s);
 
 		mTextures.load(Textures::Grass, RESOURCES_PATH + "\\grass.png"s);
+		mTextures.load(Textures::SnakeHead, RESOURCES_PATH + "\\head.png"s);
+		mTextures.load(Textures::Wall, RESOURCES_PATH + "\\wall.jpg"s);
 
 		mStatisticsText = std::make_unique<sf::Text>(mFonts.get(Fonts::Main));
 		mStatisticsText->setPosition({ 5.f, 5.f });

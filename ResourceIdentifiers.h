@@ -12,6 +12,8 @@ namespace Textures
 	enum ID
 	{
 		Grass,
+		SnakeHead,
+		Wall,
 	};
 }
 

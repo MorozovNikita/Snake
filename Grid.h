@@ -29,12 +29,15 @@ namespace Game
     public:
         Grid(TextureHolder& textures);
 
+        Cell get(const sf::Vector2i& pos) const;
+
         void draw(sf::RenderWindow& window);
 
     private:
         std::vector<std::vector<Cell>> mMatrix;
 
         std::unique_ptr<sf::Sprite>         mGrassSprite;
+        std::unique_ptr<sf::Sprite>         mWallSprite;
         sf::RectangleShape                  mBorder;
     };
 

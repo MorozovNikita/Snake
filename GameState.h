@@ -2,6 +2,7 @@
 
 #include "State.h"
 #include "Grid.h"
+#include "Snake.h"
 
 namespace Game
 {
@@ -16,5 +17,6 @@ namespace Game
 
     private:
         Grid mGrid;
+        Snake mSnake;
     };
 }
