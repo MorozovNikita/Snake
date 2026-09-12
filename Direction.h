@@ -55,4 +55,19 @@ namespace Game
         }
         return 0.f;
     }
+
+    inline Direction directionOf(sf::Vector2i v)
+    {
+        if (v.x > 0) return Direction::Right;
+        if (v.x < 0) return Direction::Left;
+        if (v.y > 0) return Direction::Down;
+        return Direction::Up;
+    }
+
+    inline Direction rotateClockwise(Direction d, int steps)
+    {
+        for (int i = 0; i < steps; ++i)
+            d = turnRight(d);
+        return d;
+    }
 }

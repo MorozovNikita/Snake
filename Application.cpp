@@ -31,7 +31,11 @@ namespace Game
 
 		mTextures.load(Textures::Grass, RESOURCES_PATH + "\\grass.png"s);
 		mTextures.load(Textures::SnakeHead, RESOURCES_PATH + "\\head.png"s);
+		mTextures.load(Textures::SnakeBody, RESOURCES_PATH + "\\body.png"s);
+		mTextures.load(Textures::SnakeTail, RESOURCES_PATH + "\\tail.png"s);
+		mTextures.load(Textures::SnakeCorner, RESOURCES_PATH + "\\bodyCorner.png"s);
 		mTextures.load(Textures::Wall, RESOURCES_PATH + "\\wall.jpg"s);
+		mTextures.load(Textures::Apple, RESOURCES_PATH + "\\apple.png"s);
 
 		mStatisticsText = std::make_unique<sf::Text>(mFonts.get(Fonts::Main));
 		mStatisticsText->setPosition({ 5.f, 5.f });

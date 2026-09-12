@@ -13,7 +13,11 @@ namespace Textures
 	{
 		Grass,
 		SnakeHead,
+		SnakeBody,
+		SnakeTail,
+		SnakeCorner,
 		Wall,
+		Apple,
 	};
 }
 

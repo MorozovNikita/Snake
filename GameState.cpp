@@ -4,56 +4,71 @@
 
 #include <SFML/Graphics/RenderWindow.hpp>
 
-Game::GameState::GameState(StateStack& stack, State::Context& context)
-	: State(stack, context)
-    , mGrid(context.textures)
-    , mSnake(context.textures, {3, 3}, 0.25f, SCREEN_WIDTH / CELL_SIZE, SCREEN_HEIGHT / CELL_SIZE)
+namespace Game
 {
-}
-
-void Game::GameState::draw()
-{
-    auto& window = getContext().window;
-    window.clear(sf::Color(40, 40, 40));
-
-    mGrid.draw(window);
-    mSnake.draw(window);
-}
-
-bool Game::GameState::update(sf::Time dt)
-{
-    mSnake.update(dt);
-
-    if (auto entered = mSnake.popEnteredCell())
+    GameState::GameState(StateStack& stack, State::Context& context)
+        : State(stack, context)
+        , mGrid(context.textures)
+        , mSnake(context.textures, { 5, 5 }, 0.25f, SCREEN_WIDTH / CELL_SIZE, SCREEN_HEIGHT / CELL_SIZE)
+        , mApple(context.textures)
     {
-        // if (mGrid.get(*entered) == Cell::Apple) { }
-        if (mGrid.get(*entered) == Cell::Wall)
+        mApple.respawn(mGrid, mSnake);
+    }
+
+    void GameState::draw()
+    {
+        auto& window = getContext().window;
+        window.clear(sf::Color(40, 40, 40));
+
+        mGrid.draw(window);
+        mApple.draw(window);
+        mSnake.draw(window);
+    }
+
+    bool GameState::update(sf::Time dt)
+    {
+        mSnake.update(dt);
+
+        if (auto entered = mSnake.popEnteredCell())
         {
-            // TO DO: popup screen
-            requestStackPop();
+            const Cell cell = mGrid.get(*entered);
+
+            if (cell == Cell::Wall || mSnake.occupies(*entered, false))
+            {
+                // TO DO: popup screen
+                requestStackPop();
+                return true;
+            }
+
+            if (cell == Cell::Apple)
+            {
+                mSnake.grow();
+                mApple.respawn(mGrid, mSnake);
+            }
         }
-    }
-    return true;
-}
 
-bool Game::GameState::handleEvent(const sf::Event& event)
-{
-    const auto* keyPressed = event.getIf<sf::Event::KeyPressed>();
-    if (!keyPressed)
         return true;
-
-    switch (keyPressed->code)
-    {
-    case sf::Keyboard::Key::Up:    mSnake.setInput(Direction::Up);    break;
-    case sf::Keyboard::Key::Down:  mSnake.setInput(Direction::Down);  break;
-    case sf::Keyboard::Key::Left:  mSnake.setInput(Direction::Left);  break;
-    case sf::Keyboard::Key::Right: mSnake.setInput(Direction::Right); break;
-    case sf::Keyboard::Key::Escape:
-        requestStackPop();
-        break;
-    default:
-        break;
     }
 
-    return false;
+    bool GameState::handleEvent(const sf::Event& event)
+    {
+        const auto* keyPressed = event.getIf<sf::Event::KeyPressed>();
+        if (!keyPressed)
+            return true;
+
+        switch (keyPressed->code)
+        {
+        case sf::Keyboard::Key::Up:    mSnake.setInput(Direction::Up);    break;
+        case sf::Keyboard::Key::Down:  mSnake.setInput(Direction::Down);  break;
+        case sf::Keyboard::Key::Left:  mSnake.setInput(Direction::Left);  break;
+        case sf::Keyboard::Key::Right: mSnake.setInput(Direction::Right); break;
+        case sf::Keyboard::Key::Escape:
+            requestStackPop();
+            break;
+        default:
+            break;
+        }
+
+        return false;
+    }
 }

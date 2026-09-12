@@ -4,26 +4,23 @@
 #include "ResourceHolder.h"
 
 #include <ranges>
+#include <cassert>
 
 #include <SFML/Graphics/RenderWindow.hpp>
 
-namespace Game  
+namespace Game
 {
-
     Grid::Grid(TextureHolder& textures)
-        : mMatrix(Game::SCREEN_HEIGHT / Game::CELL_SIZE, std::vector<Cell>(Game::SCREEN_WIDTH / Game::CELL_SIZE, Cell::Empty))
-        , mBorder({ static_cast<float>(Game::CELL_SIZE), static_cast<float>(Game::CELL_SIZE) })
+        : mMatrix(SCREEN_HEIGHT / CELL_SIZE, std::vector<Cell>(SCREEN_WIDTH / CELL_SIZE, Cell::Empty))
+        , mBorder({ static_cast<float>(CELL_SIZE), static_cast<float>(CELL_SIZE) })
     {
         const sf::Texture& grass = textures.get(Textures::Grass);
-
-        const sf::Vector2u textureGrassSize = grass.getSize();
-        const float scaleGrass = static_cast<float>(Game::CELL_SIZE) / static_cast<float>(textureGrassSize.x);
+        const float scaleGrass = static_cast<float>(CELL_SIZE) / static_cast<float>(grass.getSize().x);
         mGrassSprite = std::make_unique<sf::Sprite>(grass);
         mGrassSprite->setScale({ scaleGrass, scaleGrass });
 
         const sf::Texture& wall = textures.get(Textures::Wall);
-        const sf::Vector2u textureWallSize = wall.getSize();
-        const float scaleWall = static_cast<float>(Game::CELL_SIZE) / static_cast<float>(textureWallSize.x);
+        const float scaleWall = static_cast<float>(CELL_SIZE) / static_cast<float>(wall.getSize().x);
         mWallSprite = std::make_unique<sf::Sprite>(wall);
         mWallSprite->setScale({ scaleWall, scaleWall });
 
@@ -40,32 +37,42 @@ namespace Game
         });
     }
 
-    Cell Grid::get(const sf::Vector2i& pos) const
+    bool Grid::inBounds(sf::Vector2i pos) const
     {
+        return pos.x >= 0 && pos.y >= 0 && pos.x < cols() && pos.y < rows();
+    }
+
+    Cell Grid::get(sf::Vector2i pos) const
+    {
+        assert(inBounds(pos));
         return mMatrix[pos.y][pos.x];
+    }
+
+    void Grid::set(sf::Vector2i pos, Cell cell)
+    {
+        assert(inBounds(pos));
+        mMatrix[pos.y][pos.x] = cell;
     }
 
     void Grid::draw(sf::RenderWindow& window)
     {
-        for (std::size_t y = 0; y < mMatrix.size(); ++y)
+        for (int y = 0; y < rows(); ++y)
         {
-            for (std::size_t x = 0; x < mMatrix[y].size(); ++x)
+            for (int x = 0; x < cols(); ++x)
             {
-                const sf::Vector2f pos(x * static_cast<float>(Game::CELL_SIZE), y * static_cast<float>(Game::CELL_SIZE));
+                const sf::Vector2f pos(
+                    static_cast<float>(x * CELL_SIZE),
+                    static_cast<float>(y * CELL_SIZE));
 
-                switch (mMatrix[y][x])
+                if (mMatrix[y][x] == Cell::Wall)
                 {
-                case Cell::Empty:
-                    mGrassSprite->setPosition(pos);
-                    window.draw(*mGrassSprite); 
-                    break;
-                case Cell::Wall: 
                     mWallSprite->setPosition(pos);
-                    window.draw(*mWallSprite); 
-                    break;
-                default: 
-                    window.draw(*mGrassSprite); 
-                    break;
+                    window.draw(*mWallSprite);
+                }
+                else
+                {
+                    mGrassSprite->setPosition(pos);
+                    window.draw(*mGrassSprite);
                 }
 
                 mBorder.setPosition(pos);
@@ -73,5 +80,4 @@ namespace Game
             }
         }
     }
-
 }

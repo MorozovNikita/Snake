@@ -139,6 +139,7 @@
     </Manifest>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Apple.cpp" />
     <ClCompile Include="Application.cpp" />
     <ClCompile Include="GameState.cpp" />
     <ClCompile Include="Grid.cpp" />
@@ -149,6 +150,7 @@
     <ClCompile Include="StateStack.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Apple.h" />
     <ClInclude Include="Application.h" />
     <ClInclude Include="Constants.h" />
     <ClInclude Include="Direction.h" />
