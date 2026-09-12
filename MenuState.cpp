@@ -2,7 +2,9 @@
 
 #include "Constants.h"
 #include "MenuConstants.h"
+#include "MusicPlayer.h"
 #include "ResourceHolder.h"
+#include "Settings.h"
 #include "StateStack.h"
 
 #include <SFML/Graphics/RenderWindow.hpp>
@@ -44,6 +46,7 @@ namespace Game
             m_arrow[v].color = sf::Color::Green;
 
         updateTextColors();
+        getContext().music.play(MusicPlayer::Id::Menu);
     }
 
     void MenuState::draw()
@@ -83,28 +86,28 @@ namespace Game
         if (!keyPressed)
             return true;
 
-        switch (keyPressed->code)
+        const auto& input = getContext().settings.input;
+        if (keyPressed->code == input.menuUp)
         {
-        case sf::Keyboard::Key::Up:
             --m_selectedIndex;
             if (m_selectedIndex < 0)
                 m_selectedIndex = static_cast<int>(m_items.size()) - 1;
             updateTextColors();
-            break;
-        case sf::Keyboard::Key::Down:
+        }
+        else if (keyPressed->code == input.menuDown)
+        {
             ++m_selectedIndex;
             if (m_selectedIndex >= static_cast<int>(m_items.size()))
                 m_selectedIndex = 0;
             updateTextColors();
-            break;
-        case sf::Keyboard::Key::Enter:
+        }
+        else if (keyPressed->code == input.confirm)
+        {
             onItemSelected();
-            break;
-        case sf::Keyboard::Key::Escape:
+        }
+        else if (keyPressed->code == input.back)
+        {
             requestStackPop();
-            break;
-        default:
-            break;
         }
 
         return false;
@@ -127,10 +130,13 @@ namespace Game
             requestStackPush(States::Game);
             break;
         case Menu::Difficulty:
+            requestStackPush(States::Difficulty);
             break;
         case Menu::Leaderboard:
+            requestStackPush(States::Leaderboard);
             break;
         case Menu::Settings:
+            requestStackPush(States::Settings);
             break;
         case Menu::Exit:
             requestStackPop();

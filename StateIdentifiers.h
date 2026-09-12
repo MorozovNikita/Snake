@@ -7,8 +7,10 @@ namespace States
 		None,
 		Menu,
 		Game,
+		Difficulty,
 		Pause,
 		Settings,
+		Leaderboard,
 		GameOver
 	};
 }

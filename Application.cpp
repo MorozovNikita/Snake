@@ -5,6 +5,11 @@
 #include "StateIdentifiers.h"
 #include "MenuState.h"
 #include "GameState.h"
+#include "PauseState.h"
+#include "SettingsState.h"
+#include "DifficultyState.h"
+#include "GameOverState.h"
+#include "LeaderboardState.h"
 
 #include <SFML/Graphics/Texture.hpp>
 #include <SFML/Graphics/Font.hpp>
@@ -20,7 +25,11 @@ namespace Game
 		, mTextures()
 		, mFonts()
 		, mSoundBuffers()
-		, mStateStack(State::Context(mWindow, mTextures, mFonts, mSoundBuffers))
+		, mSettings()
+		, mMusicPlayer(mSettings)
+		, mLeaderboard("leaderboard.txt")
+		, mSession()
+		, mStateStack(State::Context(mWindow, mTextures, mFonts, mSoundBuffers, mMusicPlayer, mSettings, mLeaderboard, mSession))
 		, mStatisticsText()
 		, mStatisticsUpdateTime()
 		, mStatisticsNumFrames(0)
@@ -36,6 +45,11 @@ namespace Game
 		mTextures.load(Textures::SnakeCorner, RESOURCES_PATH + "\\bodyCorner.png"s);
 		mTextures.load(Textures::Wall, RESOURCES_PATH + "\\wall.jpg"s);
 		mTextures.load(Textures::Apple, RESOURCES_PATH + "\\apple.png"s);
+		mTextures.load(Textures::Score, RESOURCES_PATH + "\\trophy.png"s);
+
+		mSoundBuffers.load(SoundBuffers::Eat, RESOURCES_PATH + "\\AppleEat.wav"s);
+		mSoundBuffers.load(SoundBuffers::Death, RESOURCES_PATH + "\\Death.wav"s);
+		mSoundBuffers.load(SoundBuffers::Win, RESOURCES_PATH + "\\Win.wav"s);
 
 		mStatisticsText = std::make_unique<sf::Text>(mFonts.get(Fonts::Main));
 		mStatisticsText->setPosition({ 5.f, 5.f });
@@ -78,7 +92,10 @@ namespace Game
 			mStateStack.handleEvent(*event);
 
 			if (event->is<sf::Event::Closed>())
+			{
+				mLeaderboard.save();
 				mWindow.close();
+			}
 		}
 	}
 
@@ -116,6 +133,16 @@ namespace Game
 	{
 		mStateStack.registerState<MenuState>(States::Menu);
 		mStateStack.registerState<GameState>(States::Game);
+		mStateStack.registerState<PauseState>(States::Pause);
+		mStateStack.registerState<SettingsState>(States::Settings);
+		mStateStack.registerState<DifficultyState>(States::Difficulty);
+		mStateStack.registerState<GameOverState>(States::GameOver);
+		mStateStack.registerState<LeaderboardState>(States::Leaderboard);
+	}
+
+	Application::~Application()
+	{
+		mLeaderboard.save();
 	}
 
 }

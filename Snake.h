@@ -21,8 +21,7 @@ namespace Game
     class Snake
     {
     public:
-        Snake(TextureHolder& textures, sf::Vector2i startCell,
-            float stepTime, int cols, int rows);
+        Snake(TextureHolder& textures, sf::Vector2i startCell, float stepTime, int cols, int rows);
 
         void setInput(Direction desired);
         void update(sf::Time dt);

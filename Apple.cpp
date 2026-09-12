@@ -42,7 +42,7 @@ namespace Game
         syncSprite();
     }
 
-    void Apple::respawn(Grid& grid, const Snake& snake)
+    bool Apple::respawn(Grid& grid, const Snake& snake)
     {
         std::vector<sf::Vector2i> freeCells;
         freeCells.reserve(static_cast<std::size_t>(grid.cols() * grid.rows()));
@@ -61,11 +61,17 @@ namespace Game
         }
 
         if (freeCells.empty())
-            return;
+        {
+            if (mPlaced && grid.inBounds(mCell) && grid.get(mCell) == Cell::Apple)
+                grid.set(mCell, Cell::Empty);
+            mPlaced = false;
+            return false;
+        }
 
         static std::mt19937 rng{ std::random_device{}() };
         std::uniform_int_distribution<std::size_t> pick(0, freeCells.size() - 1);
         placeAt(grid, freeCells[pick(rng)]);
+        return true;
     }
 
     void Apple::draw(sf::RenderWindow& window)

@@ -18,6 +18,7 @@ namespace Textures
 		SnakeCorner,
 		Wall,
 		Apple,
+		Score,
 	};
 }
 
@@ -33,7 +34,9 @@ namespace SoundBuffers
 {
 	enum ID
 	{
-
+		Eat,
+		Death,
+		Win,
 	};
 }
 

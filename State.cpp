@@ -2,11 +2,17 @@
 
 #include "StateStack.h"
 
-State::Context::Context(sf::RenderWindow& window, TextureHolder& textures, FontHolder& fonts, SoundBufferHolder& soundBuffers)
+State::Context::Context(sf::RenderWindow& window, TextureHolder& textures, FontHolder& fonts,
+	SoundBufferHolder& soundBuffers, Game::MusicPlayer& music, Game::Settings& settings,
+	Game::Leaderboard& leaderboard, Game::SessionResult& session)
 	: window(window)
 	, textures(textures)
 	, fonts(fonts)
 	, soundBuffers(soundBuffers)
+	, music(music)
+	, settings(settings)
+	, leaderboard(leaderboard)
+	, session(session)
 {
 }
 

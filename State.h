@@ -13,6 +13,14 @@ namespace sf
 	class RenderWindow;
 }
 
+namespace Game
+{
+	class MusicPlayer;
+	class Leaderboard;
+	struct Settings;
+	struct SessionResult;
+}
+
 class StateStack;
 
 class State
@@ -22,12 +30,18 @@ public:
 
 	struct Context
 	{
-		Context(sf::RenderWindow& window, TextureHolder& textures, FontHolder& fonts, SoundBufferHolder& soundBuffers);
+		Context(sf::RenderWindow& window, TextureHolder& textures, FontHolder& fonts,
+			    SoundBufferHolder& soundBuffers, Game::MusicPlayer& music, Game::Settings& settings,
+			    Game::Leaderboard& leaderboard, Game::SessionResult& session);
 
 		sf::RenderWindow&  window;
 		TextureHolder&	   textures;
 		FontHolder&		   fonts;
 		SoundBufferHolder& soundBuffers;
+		Game::MusicPlayer& music;
+		Game::Settings&	   settings;
+		Game::Leaderboard& leaderboard;
+		Game::SessionResult& session;
 	};
 
 public:

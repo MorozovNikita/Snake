@@ -171,10 +171,7 @@ namespace Game
             return { &m_body, angle };
         }
 
-        return {
-            &m_corner,
-            cornerDegrees(directionOf(towardA), directionOf(towardB))
-        };
+        return { &m_corner, cornerDegrees(directionOf(towardA), directionOf(towardB)) };
     }
 
     Snake::Piece Snake::pieceAtCell(std::size_t index)
@@ -240,8 +237,8 @@ namespace Game
     void Snake::drawHead(sf::RenderWindow& window, float t)
     {
         drawSprite(window, m_head,
-            lerp(centerOf(m_prevHead), centerOf(m_cells.front()), t),
-            toAngle(m_direction));
+                   lerp(centerOf(m_prevHead), centerOf(m_cells.front()), t),
+                   toAngle(m_direction));
     }
 
     void Snake::draw(sf::RenderWindow& window)

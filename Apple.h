@@ -23,7 +23,7 @@ namespace Game
         sf::Vector2i cell() const { return mCell; }
 
         void placeAt(Grid& grid, sf::Vector2i cell);
-        void respawn(Grid& grid, const Snake& snake);
+        bool respawn(Grid& grid, const Snake& snake);
 
         void draw(sf::RenderWindow& window);
 

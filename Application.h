@@ -3,6 +3,9 @@
 #include "ResourceHolder.h"
 #include "ResourceIdentifiers.h"
 #include "StateStack.h"
+#include "MusicPlayer.h"
+#include "Settings.h"
+#include "Leaderboard.h"
 
 #include <SFML/System/Time.hpp>
 #include <SFML/Graphics/RenderWindow.hpp>
@@ -15,6 +18,7 @@ namespace Game
 	{
 	public:
 		Application();
+		~Application();
 		void					run();
 
 	private:
@@ -32,6 +36,10 @@ namespace Game
 		TextureHolder			  mTextures;
 		FontHolder				  mFonts;
 		SoundBufferHolder		  mSoundBuffers;
+		Settings				  mSettings;
+		MusicPlayer				  mMusicPlayer;
+		Leaderboard				  mLeaderboard;
+		SessionResult			  mSession;
 								  
 		StateStack				  mStateStack;
 
